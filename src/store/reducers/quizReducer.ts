@@ -23,14 +23,31 @@ const INITIAL_STATE: QuizState = {
     questions: []
 };
 
-interface QuizReducerAction {
+export interface QuizReducerAction {
     type: QuizActionsTypes,
-    payload: Partial<QuizState>
+    payload?: Partial<QuizState>
 }
 
-export default (state = INITIAL_STATE, action: QuizReducerAction) => {
+export default (state = INITIAL_STATE, action: QuizReducerAction): QuizState => {
   switch (action.type) {
+    case QuizActionsTypes.FETCH_QUESTIONS:
+        return {
+            ...state,
+            loading_fetch_questions: true,
+        }
+    case QuizActionsTypes.FETCH_QUESTIONS_SUCCESS:
+        return {
+            ...state,
+            loading_fetch_questions: false,
+            questions: action.payload?.questions || []
+        }
+    case QuizActionsTypes.FETCH_QUESTIONS_ERROR:
+        return {
+            ...state,
+            loading_fetch_questions: false,
+            error_fetch_questions: action.payload?.error_fetch_questions || ""
+        }
     default:
-      return state;
+        return state;
   }
 };

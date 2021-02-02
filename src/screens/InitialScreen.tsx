@@ -1,21 +1,60 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import {
+    useDispatch,
+    useSelector
+} from 'react-redux'
 import {
     View,
     StyleSheet
 } from 'react-native'
+import {
+    ScreenContainer,
+    Text
+} from "../components/common"
+import {
+    fetchQuestions
+} from '../store/actions/quizActions'
+import {
+    ApplicationState
+} from '../store'
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "red"
+        alignItems: 'center',
+        justifyContent: 'space-between'
     }
 })
 
 const InitialScreen: React.FC = () => {
-    return (
-        <View style={styles.container}>
+    const dispatch = useDispatch()
 
-        </View>
+    useEffect(() => {
+        dispatch(fetchQuestions())
+    }, [])
+
+    const {
+        loading_fetch_questions,
+        error_fetch_questions,
+    } = useSelector((state: ApplicationState) => state.quizReducer)
+
+    return (
+        <ScreenContainer>
+            <View style={styles.container}>
+                <Text>
+                    Welcome to the Trivia Challenge!
+                </Text>
+                <Text>
+                    You will be presented with 10 True or False questions.
+                </Text>
+                <Text>
+                    Can you score 100%?
+                </Text>
+                <Text>
+                    BEGIN
+                </Text>
+            </View>
+        </ScreenContainer>
     )
 }
 

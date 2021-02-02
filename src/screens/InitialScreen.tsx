@@ -4,12 +4,16 @@ import {
     useSelector
 } from 'react-redux'
 import {
+    useNavigation
+} from '@react-navigation/native'
+import {
     View,
     StyleSheet
 } from 'react-native'
 import {
     ScreenContainer,
-    Text
+    Text,
+    Button
 } from "../components/common"
 import {
     fetchQuestions
@@ -17,6 +21,7 @@ import {
 import {
     ApplicationState
 } from '../store'
+import { Colors } from '../theme'
 
 const styles = StyleSheet.create({
     container: {
@@ -29,9 +34,15 @@ const styles = StyleSheet.create({
 const InitialScreen: React.FC = () => {
     const dispatch = useDispatch()
 
-    useEffect(() => {
+    const loadQuestions = () => {
         dispatch(fetchQuestions())
+    }
+
+    useEffect(() => {
+        loadQuestions()
     }, [])
+
+    const { navigate } = useNavigation()
 
     const {
         loading_fetch_questions,
@@ -41,21 +52,50 @@ const InitialScreen: React.FC = () => {
     return (
         <ScreenContainer>
             <View style={styles.container}>
-                <Text>
+                <Text
+                    fontSize={32}
+                    color={Colors.FULL_SHADE}
+                    textAlign="center"
+                >
                     Welcome to the Trivia Challenge!
                 </Text>
-                <Text>
-                    You will be presented with 10 True or False questions.
+                <Text
+                    fontSize={22}
+                    color={Colors.MEDIUM_SHADE}
+                    textAlign="center"
+                >
+                    You will be presented with 10 <Text fontStyle="italic">True or False</Text> questions.
                 </Text>
-                <Text>
-                    Can you score 100%?
+                <Text
+                    fontSize={26}
+                    color={Colors.FULL_SHADE}
+                    textAlign="center"
+                >
+                    Can you score <Text fontWeight="bold">100%</Text>?
                 </Text>
-                <Text>
-                    BEGIN
-                </Text>
+                {
+                    !!error_fetch_questions && (
+                        <Text color={Colors.NEGATIVE}>
+                            {error_fetch_questions}
+                            {'\n'}
+                            Click on the button to try again
+                        </Text>
+                    )
+                }
+                <Button
+                    label={!!error_fetch_questions ? "TRY AGAIN" : "BEGIN"}
+                    loading={loading_fetch_questions}
+                    onPress={() => {
+                        if (!!error_fetch_questions) {
+                            loadQuestions()
+                        } else {
+                            console.log("sdsdsdsdsd")
+                        }
+                    }}
+                />
             </View>
         </ScreenContainer>
     )
 }
 
-export default InitialScreen;
+export default InitialScreen

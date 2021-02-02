@@ -13,7 +13,5 @@ export enum Colors {
     MEDIUM_SHADE = "#828282",
     LIGHT_SHADE = "#e0e0e0",
     EMPTY_SHADE = "#ffffff",
-    BLACK_TRANSLUCENT_SHADE = '#00000088',
-    BLACK = '#000000',
     TRANSPARENT = 'transparent'
 }

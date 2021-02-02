@@ -16,16 +16,16 @@ export const fetchQuestions = () => async (dispatch: Dispatch<QuizReducerAction>
         const { data } = await axios.get('https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean')
 
         dispatch({
-            type: QuizActionsTypes.FETCH_QUESTIONS,
+            type: QuizActionsTypes.FETCH_QUESTIONS_SUCCESS,
             payload: {
                 questions: data?.results
             }
         })
     } catch (error) {
         dispatch({
-            type: QuizActionsTypes.FETCH_QUESTIONS,
+            type: QuizActionsTypes.FETCH_QUESTIONS_ERROR,
             payload: {
-                error_fetch_questions: 'Failed to fetch questions'
+                error_fetch_questions: 'Failed to load the questions.'
             }
         })
     }
